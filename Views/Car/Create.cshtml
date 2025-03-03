@@ -1,0 +1,60 @@
+﻿@model Car
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<form method="post" asp-action="Create">
+    @*Brand*@
+    <div class="form-group">
+        <label asp-for="Brand">Марка</label>
+        <input asp-for="Brand" type="brand" class="form-control" placeholder="Въведи марка">
+        <span asp-validation-for="Brand" class="text-danger"></span>
+    </div>
+
+    @*Model*@
+    <div class="form-group">
+        <label asp-for="Model">Модел</label>
+        <input asp-for="Model" type="Model" class="form-control" placeholder="Въведи модел">
+        <span asp-validation-for="Model" class="text-danger"></span>
+    </div>
+
+    @*Year*@
+    <div class="form-group">
+        <label asp-for="Year">Година</label>
+        <input asp-for="Year" type="Year" class="form-control" placeholder="Въведи година">
+        <span asp-validation-for="Year" class="text-danger"></span>
+    </div>
+
+    @*DailyRate*@
+    <div class="form-group">
+        <label asp-for="DailyRate" for="exampleInputDailyRate">Дневна такса</label>
+        <input asp-for="DailyRate" type="DailyRate" class="form-control" placeholder="Въведи дневна такса">
+        <span asp-validation-for="DailyRate" class="text-danger"></span>
+    </div>
+
+    @*Category*@
+    <div>
+        <label asp-for="Category">Категория</label>
+        <select asp-for="Category" class="form-control">
+            <option>Икономична</option>
+            <option>Луксозна</option>
+            <option>Ван</option>
+        </select>
+        <span asp-validation-for="Category" class="text-danger"></span>
+    </div>
+
+    @*Image*@
+    <div class="form-group">
+        <label asp-for="Image">Връзка за изображение</label>
+        <input asp-for="Image" type="imagelink" class="form-control" placeholder="Въведи връзка">
+        <span asp-validation-for="Image" class="text-danger"></span>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Добави</button>
+</form>

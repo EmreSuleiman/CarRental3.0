@@ -1,0 +1,48 @@
+﻿@model CarRental3._0.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1>Dashboard</h1>
+
+<h2>Personal Information</h2>
+<p><strong>Name:</strong> @Model.User.FullName</p>
+<p><strong>Email:</strong> @Model.User.Email</p>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("user"))
+{
+    <h2>Rental History</h2>
+    @if (Model.Rentals.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Car</th>
+                    <th>Rental Date</th>
+                    <th>Return Date</th>
+                    <th>Total Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var rental in Model.Rentals)
+                {
+                    <tr>
+                        <td>@rental.Car.Brand @rental.Car.Model</td>
+                        <td>@rental.RentalDate.ToShortDateString()</td>
+                        <td>@rental.ReturnDate.ToShortDateString()</td>
+                        <td>@rental.TotalCost.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No rentals found.</p>
+    }
+}
+else
+{
+    
+}

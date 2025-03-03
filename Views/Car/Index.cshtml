@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Car>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<main>
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Офертите ни</h1>
+                <p class="lead text-body-secondary">Разгледайте каталогът ни от коли по-долу</p>
+                <p>
+                    <a href="#" class="btn btn-primary my-2">Всички</a>
+                    <a href="#" class="btn btn-secondary my-2">Икономични</a>
+                    <a href="#" class="btn btn-secondary my-2">Луксозни</a>
+                    <a href="#" class="btn btn-secondary my-2">Ванове</a>
+                </p>
+            </div>
+        </div>
+    </section>
+    @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+    {
+        <div class="text-center">
+            <a asp-controller="Car" asp-action="Create" class="btn btn-primary">Добави нова кола</a>
+        </div>
+    })
+    <div class="album py-5 bg-body-tertiary">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                @foreach(var item in Model)
+                {
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="card-img-top" src="@item.Image" alt="Image of the car">
+                            <div class="card-body">
+                                <p class="card-text">@item.Brand @item.Model</p>
+                                <p class="card-text">@item.DailyRate лв./ден</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a type="btn btn-success" asp-controller="Car" asp-action="Detail" asp-route-id="@item.CarId" class="btn btn-sm btn-outline-secondary">Наеми</a>
+                                        @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                                        {
+                                            <a type="btn btn-success" asp-controller="Car" asp-action="Edit" asp-route-id="@item.CarId" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                            <a type="btn btn-success" asp-controller="Car" asp-action="Delete" asp-route-id="@item.CarId" class="btn btn-sm btn-outline-secondary">Изтрий</a>
+                                        }
+                                    </div>
+                                    <small class="text-body-secondary">@item.Status</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</main>
