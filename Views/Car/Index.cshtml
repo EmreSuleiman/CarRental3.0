@@ -1,35 +1,47 @@
 ﻿@model IEnumerable<Car>
 
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
 <main>
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
                 <h1 class="fw-light">Офертите ни</h1>
                 <p class="lead text-body-secondary">Разгледайте каталогът ни от коли по-долу</p>
-                <p>
-                    <a href="#" class="btn btn-primary my-2">Всички</a>
-                    <a href="#" class="btn btn-secondary my-2">Икономични</a>
-                    <a href="#" class="btn btn-secondary my-2">Луксозни</a>
-                    <a href="#" class="btn btn-secondary my-2">Ванове</a>
-                </p>
             </div>
         </div>
     </section>
+
+    <!-- Hidden input for selected category -->
+    <input type="hidden" id="selectedCategory" value="@ViewBag.SelectedCategory" />
+
+
+    <!-- Date Range Picker -->
+    <div class="form-group">
+        <label for="dateRangePicker">Период:</label>
+        <input type="text" id="dateRangePicker" class="form-control" placeholder="Изберете период" value="@(ViewBag.StartDate != null && ViewBag.EndDate != null ? $"{ViewBag.StartDate} to {ViewBag.EndDate}" : "")" />
+    </div>
+
+    <!-- Search Button -->
+    <button id="searchButton" class="btn btn-primary">Търси</button>
+
+    <!-- Category Buttons -->
+    <p>
+        <a href="#" class="btn @(string.IsNullOrEmpty(ViewBag.SelectedCategory) ? "btn-primary" : "btn-secondary") my-2 category-btn" data-category="">Всички</a>
+        <a href="#" class="btn @(ViewBag.SelectedCategory == "Икономична" ? "btn-primary" : "btn-secondary") my-2 category-btn" data-category="Икономична">Икономични</a>
+        <a href="#" class="btn @(ViewBag.SelectedCategory == "Луксозна" ? "btn-primary" : "btn-secondary") my-2 category-btn" data-category="Луксозна">Луксозни</a>
+        <a href="#" class="btn @(ViewBag.SelectedCategory == "Ван" ? "btn-primary" : "btn-secondary") my-2 category-btn" data-category="Ван">Ванове</a>
+    </p>
+
     @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
     {
         <div class="text-center">
             <a asp-controller="Car" asp-action="Create" class="btn btn-primary">Добави нова кола</a>
         </div>
-    })
+    }
+
     <div class="album py-5 bg-body-tertiary">
         <div class="container">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                @foreach(var item in Model)
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="carList">
+                @foreach (var item in Model)
                 {
                     <div class="col">
                         <div class="card shadow-sm">
@@ -46,7 +58,6 @@
                                             <a type="btn btn-success" asp-controller="Car" asp-action="Delete" asp-route-id="@item.CarId" class="btn btn-sm btn-outline-secondary">Изтрий</a>
                                         }
                                     </div>
-                                    <small class="text-body-secondary">@item.Status</small>
                                 </div>
                             </div>
                         </div>
@@ -56,3 +67,46 @@
         </div>
     </div>
 </main>
+
+<!-- Initialize Flatpickr -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Initialize the date range picker
+        flatpickr("#dateRangePicker", {
+            mode: "range", // Enable range selection
+            dateFormat: "Y-m-d", // Set date format
+            minDate: "today" // Disable past dates
+        });
+
+        // Handle search button click
+        document.getElementById("searchButton").addEventListener("click", function () {
+            const dateRange = document.getElementById("dateRangePicker").value;
+            const category = document.getElementById("selectedCategory").value;
+
+            if (dateRange) {
+                const [startDate, endDate] = dateRange.split(" to ");
+                window.location.href = `/Car/Index?category=${category}&startDate=${startDate}&endDate=${endDate}`;
+            } else {
+                window.location.href = `/Car/Index?category=${category}`;
+            }
+        });
+
+        // Handle category button clicks
+        document.querySelectorAll(".category-btn").forEach(button => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent the default link behavior
+                const category = this.getAttribute("data-category");
+                document.getElementById("selectedCategory").value = category;
+
+                // Update the button styles
+                document.querySelectorAll(".category-btn").forEach(btn => {
+                    btn.classList.remove("btn-primary");
+                    btn.classList.add("btn-secondary");
+                });
+                this.classList.remove("btn-secondary");
+                this.classList.add("btn-primary");
+            });
+        });
+    });
+</script>

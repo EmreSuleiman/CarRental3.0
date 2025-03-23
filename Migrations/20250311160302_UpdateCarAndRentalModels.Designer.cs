@@ -4,6 +4,7 @@ using CarRental3._0.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental3._0.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250311160302_UpdateCarAndRentalModels")]
+    partial class UpdateCarAndRentalModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,9 +51,6 @@ namespace CarRental3._0.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<bool>("HasBooked")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("IsBlacklisted")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -167,8 +167,9 @@ namespace CarRental3._0.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Category")
-                        .HasColumnType("int");
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
@@ -203,26 +204,26 @@ namespace CarRental3._0.Migrations
                         {
                             CarId = 1,
                             Brand = "Toyota",
-                            Category = 0,
-                            CreatedAt = new DateTime(2025, 3, 23, 15, 41, 4, 337, DateTimeKind.Utc).AddTicks(1617),
+                            Category = "Икономични",
+                            CreatedAt = new DateTime(2025, 3, 11, 16, 3, 2, 420, DateTimeKind.Utc).AddTicks(4991),
                             DailyRate = 30m,
                             Image = "https://global.toyota/pages/models/images/camry/camry_010_s.jpg",
                             Model = "Camry",
                             Status = "В наличност",
-                            UpdatedAt = new DateTime(2025, 3, 23, 15, 41, 4, 337, DateTimeKind.Utc).AddTicks(1617),
+                            UpdatedAt = new DateTime(2025, 3, 11, 16, 3, 2, 420, DateTimeKind.Utc).AddTicks(4992),
                             Year = 2024
                         },
                         new
                         {
                             CarId = 2,
                             Brand = "Toyota",
-                            Category = 1,
-                            CreatedAt = new DateTime(2025, 3, 23, 15, 41, 4, 337, DateTimeKind.Utc).AddTicks(1618),
+                            Category = "Икономични",
+                            CreatedAt = new DateTime(2025, 3, 11, 16, 3, 2, 420, DateTimeKind.Utc).AddTicks(5023),
                             DailyRate = 50m,
                             Image = "https://www.cstatic-images.com/car-pictures/xl/USC90TOC021A021001.png",
                             Model = "Camry",
                             Status = "В наличност",
-                            UpdatedAt = new DateTime(2025, 3, 23, 15, 41, 4, 337, DateTimeKind.Utc).AddTicks(1619),
+                            UpdatedAt = new DateTime(2025, 3, 11, 16, 3, 2, 420, DateTimeKind.Utc).AddTicks(5023),
                             Year = 2020
                         });
                 });

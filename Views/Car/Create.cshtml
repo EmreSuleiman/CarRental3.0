@@ -35,11 +35,12 @@
 
     @*Category*@
     <div>
+
         <label asp-for="Category">Категория</label>
         <select asp-for="Category" class="form-control">
-            <option>Икономична</option>
-            <option>Луксозна</option>
-            <option>Ван</option>
+            <option value="Икономична">Икономична</option>
+            <option value="Луксозна">Луксозна</option>
+            <option value="Ван">Ван</option>
         </select>
         <span asp-validation-for="Category" class="text-danger"></span>
     </div>

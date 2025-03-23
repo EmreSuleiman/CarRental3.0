@@ -1,4 +1,5 @@
-﻿@model CarRental3._0.ViewModels.DashboardViewModel
+﻿@using System.Globalization
+@model CarRental3._0.ViewModels.DashboardViewModel
 
 @{
     ViewData["Title"] = "Dashboard";
@@ -7,8 +8,8 @@
 <h1>Dashboard</h1>
 
 <h2>Personal Information</h2>
-<p><strong>Name:</strong> @Model.User.FullName</p>
-<p><strong>Email:</strong> @Model.User.Email</p>
+<p><strong>Name:</strong> @(Model.User?.FullName ?? "N/A")</p>
+<p><strong>Email:</strong> @(Model.User?.Email ?? "N/A")</p>
 
 @if (User.Identity.IsAuthenticated && User.IsInRole("user"))
 {
@@ -28,10 +29,10 @@
                 @foreach (var rental in Model.Rentals)
                 {
                     <tr>
-                        <td>@rental.Car.Brand @rental.Car.Model</td>
+                        <td>@(rental.Car?.Brand ?? "N/A") @(rental.Car?.Model ?? "N/A")</td>
                         <td>@rental.RentalDate.ToShortDateString()</td>
                         <td>@rental.ReturnDate.ToShortDateString()</td>
-                        <td>@rental.TotalCost.ToString("C")</td>
+                        <td>@rental.TotalCost.ToString("C", CultureInfo.CreateSpecificCulture("bg-BG"))</td>
                     </tr>
                 }
             </tbody>
@@ -44,5 +45,5 @@
 }
 else
 {
-    
+    <p>You do not have permission to view this page.</p>
 }

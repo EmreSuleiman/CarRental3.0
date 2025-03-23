@@ -7,7 +7,7 @@
         public string Model { get; set; } = string.Empty;
         public int Year { get; set; }
         public decimal DailyRate { get; set; }
-        public string Category { get; set; } = "Икономични";
+        public CarCategory Category { get; set; } // Use the enum here
         public string Status { get; set; } = "В наличност";
         public string? Image { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

@@ -1,0 +1,130 @@
+﻿@model CarRental3._0.ViewModels.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container">
+    <h1>Admin Dashboard</h1>
+
+    <!-- Buttons -->
+    <div class="mb-4">
+        <button id="showRentalsButton" class="btn btn-primary">See Rentals</button>
+        <button id="showUsersButton" class="btn btn-secondary">Manage Users</button>
+    </div>
+
+    <!-- Rentals Section -->
+    <div id="rentalsSection" class="mb-4">
+        <h2>All Rentals</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Car</th>
+                    <th>User</th>
+                    <th>Rental Date</th>
+                    <th>Return Date</th>
+                    <th>Total Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var rental in Model.Rentals)
+                {
+                    <tr>
+                        <td>@rental.Car.Brand @rental.Car.Model</td>
+                        <td>@rental.AppUser.FullName (@rental.AppUser.Email)</td>
+                        <td>@rental.RentalDate.ToShortDateString()</td>
+                        <td>@rental.ReturnDate.ToShortDateString()</td>
+                        <td>@rental.TotalCost.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Users Section -->
+    <div id="usersSection" class="mb-4" style="display: none;">
+        <h2>All Users</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td>@user.FullName</td>
+                        <td>@user.Email</td>
+                        <td>@user.Role</td>
+                        <td>
+                            @if (!user.IsBlacklisted)
+                            {
+                                <form asp-action="BlacklistUser" method="post" style="display: inline;">
+                                    <input type="hidden" name="userId" value="@user.Id" />
+                                    <button type="submit" class="btn btn-danger btn-sm">Blacklist</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-action="UnblacklistUser" method="post" style="display: inline;">
+                                    <input type="hidden" name="userId" value="@user.Id" />
+                                    <button type="submit" class="btn btn-success btn-sm">Unblacklist</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Blacklisted Users Section -->
+    <div id="blacklistedUsersSection" class="mb-4" style="display: none;">
+        <h2>Blacklisted Users</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.BlacklistedUsers)
+                {
+                    <tr>
+                        <td>@user.FullName</td>
+                        <td>@user.Email</td>
+                        <td>@user.Role</td>
+                        <td>
+                            <form asp-action="UnblacklistUser" method="post" style="display: inline;">
+                                <input type="hidden" name="userId" value="@user.Id" />
+                                <button type="submit" class="btn btn-success btn-sm">Unblacklist</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- JavaScript to toggle sections -->
+<script>
+    document.getElementById("showRentalsButton").addEventListener("click", function () {
+        document.getElementById("rentalsSection").style.display = "block";
+        document.getElementById("usersSection").style.display = "none";
+        document.getElementById("blacklistedUsersSection").style.display = "none";
+    });
+
+    document.getElementById("showUsersButton").addEventListener("click", function () {
+        document.getElementById("rentalsSection").style.display = "none";
+        document.getElementById("usersSection").style.display = "block";
+        document.getElementById("blacklistedUsersSection").style.display = "block";
+    });
+</script>

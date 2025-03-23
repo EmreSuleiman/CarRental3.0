@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace CarRental3._0.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class UpdateCarAndRentalModels : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -298,6 +300,15 @@ namespace CarRental3._0.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "Cars",
+                columns: new[] { "CarId", "Brand", "Category", "CreatedAt", "DailyRate", "Image", "Model", "Status", "UpdatedAt", "Year" },
+                values: new object[,]
+                {
+                    { 1, "Toyota", "Икономични", new DateTime(2025, 3, 11, 16, 3, 2, 420, DateTimeKind.Utc).AddTicks(4991), 30m, "https://global.toyota/pages/models/images/camry/camry_010_s.jpg", "Camry", "В наличност", new DateTime(2025, 3, 11, 16, 3, 2, 420, DateTimeKind.Utc).AddTicks(4992), 2024 },
+                    { 2, "Toyota", "Икономични", new DateTime(2025, 3, 11, 16, 3, 2, 420, DateTimeKind.Utc).AddTicks(5023), 50m, "https://www.cstatic-images.com/car-pictures/xl/USC90TOC021A021001.png", "Camry", "В наличност", new DateTime(2025, 3, 11, 16, 3, 2, 420, DateTimeKind.Utc).AddTicks(5023), 2020 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

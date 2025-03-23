@@ -20,3 +20,140 @@ html {
 body {
   margin-bottom: 60px;
 }
+/* Hero Section */
+.hero-section {
+    background: url('https://www.nextgearcapital.com/wp-content/uploads/sites/2/2020/04/Dollarphotoclub_85133296.jpg') no-repeat center center/cover;
+    color: white;
+    padding: 100px 0;
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    background-color: black;
+}
+.hero-content h2 {
+    font-size: 25px;
+    background-color: black;
+}
+
+.hero-buttons .btn {
+    margin: 10px;
+
+}
+
+/* Featured Cars Section */
+.featured-cars {
+    padding: 50px 0;
+    text-align: center;
+    overflow: hidden; /* Hide overflow to create a seamless loop */
+}
+
+.carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.carousel:hover .carousel-track {
+    animation-play-state: paused;
+}
+
+.carousel-track {
+    display: flex;
+    animation: slide 20s linear infinite; /* Adjust speed as needed */
+}
+
+.car-card {
+    flex: 0 0 300px; /* Fixed width for each car card */
+    margin: 0 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+    .car-card img {
+        width: 100%;
+        height: 15   0px;
+        border-radius: 10px;
+    }
+
+/* Animation for sliding */
+@keyframes slide {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%); /* Move the track by half its width */
+    }
+}
+/* Why Choose Us */
+.why-choose-us {
+    padding: 50px 0;
+    text-align: center;
+}
+
+.benefits-grid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.benefit-card {
+    width: 30%;
+    margin: 20px 0;
+}
+
+    .benefit-card i {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+/* Testimonials */
+.testimonials {
+    padding: 50px 0;
+    text-align: center;
+}
+
+.testimonials-grid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.testimonial-card {
+    width: 45%;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+    .testimonial-card img {
+        width: 80px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+    }
+
+/* Footer */
+.footer {
+    background: #333;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer-links a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.social-media a {
+    color: white;
+    margin: 0 10px;
+    font-size: 1.5rem;
+}

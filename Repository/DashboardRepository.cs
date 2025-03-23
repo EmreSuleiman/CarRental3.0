@@ -28,9 +28,9 @@ namespace CarRental3._0.Repository
         public async Task<List<Rental>> GetUserRentalsAsync(string userId)
         {
             return await _context.Rentals
-                .Include(r => r.Car) // Include the Car details
-                .Where(r => r.AppUserId == userId)
-                .ToListAsync();
+                        .Include(r => r.Car) // Include the Car details
+                        .Where(r => r.AppUserId == userId)
+                        .ToListAsync();
         }
     }
 }

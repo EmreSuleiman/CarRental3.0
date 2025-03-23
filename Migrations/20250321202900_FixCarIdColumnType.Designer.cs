@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental3._0.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250302170744_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20250321202900_FixCarIdColumnType")]
+    partial class FixCarIdColumnType
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,6 +51,9 @@ namespace CarRental3._0.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<bool>("HasBooked")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsBlacklisted")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -167,9 +170,8 @@ namespace CarRental3._0.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
@@ -198,6 +200,34 @@ namespace CarRental3._0.Migrations
                     b.HasKey("CarId");
 
                     b.ToTable("Cars");
+
+                    b.HasData(
+                        new
+                        {
+                            CarId = 1,
+                            Brand = "Toyota",
+                            Category = 0,
+                            CreatedAt = new DateTime(2025, 3, 21, 20, 29, 0, 318, DateTimeKind.Utc).AddTicks(5668),
+                            DailyRate = 30m,
+                            Image = "https://global.toyota/pages/models/images/camry/camry_010_s.jpg",
+                            Model = "Camry",
+                            Status = "В наличност",
+                            UpdatedAt = new DateTime(2025, 3, 21, 20, 29, 0, 318, DateTimeKind.Utc).AddTicks(5669),
+                            Year = 2024
+                        },
+                        new
+                        {
+                            CarId = 2,
+                            Brand = "Toyota",
+                            Category = 1,
+                            CreatedAt = new DateTime(2025, 3, 21, 20, 29, 0, 318, DateTimeKind.Utc).AddTicks(5670),
+                            DailyRate = 50m,
+                            Image = "https://www.cstatic-images.com/car-pictures/xl/USC90TOC021A021001.png",
+                            Model = "Camry",
+                            Status = "В наличност",
+                            UpdatedAt = new DateTime(2025, 3, 21, 20, 29, 0, 318, DateTimeKind.Utc).AddTicks(5670),
+                            Year = 2020
+                        });
                 });
 
             modelBuilder.Entity("CarRental3._0.Models.Rental", b =>

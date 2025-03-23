@@ -1,33 +1,30 @@
-﻿@model Car
+﻿@model CarRental3._0.Models.Car
 
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
 @{
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
-    <div class="container">
-        <div class="row">
-            <div class="col-md-5">
-                <div class="project-info-box mt-0">
-                    <h5>@Model.Brand details</h5>
-                </div><!-- / project-info-box -->
-
-                <div class="project-info-box">
-                    <p><b>Brand:</b> @Model.Brand</p>
-                    <p><b>Model:</b> @Model.Model</p>
-                    <p><b>Year:</b> @Model.Year</p>
-                    <p><b>Price:</b> @Model.DailyRate</p>
-                </div><!-- / project-info-box -->
-            </div><!-- / column -->
-
-            <div class="col-md-7">
-                <img src="@Model.Image" alt="project-image" class="rounded" width="300" height="200">
-                <div class="project-info-box">
-                    <p><b>Categories:</b> Design, Illustration</p>
-                    <p><b>Skills:</b> Illustrator</p>
-                </div><!-- / project-info-box -->
-            </div><!-- / column -->
-            <a href="#" asp-controller="Car" asp-action="Checkout" asp-route-id="CarId" class="btn btn-primary my-2">Наеми</a>
-        </div>
-    </div>
+    ViewData["Title"] = "Car Details";
 }
+
+<div class="container">
+    <h1>@Model.Brand @Model.Model</h1>
+    <img src="@Model.Image" alt="Image of the car" class="img-fluid" />
+    <p>Daily Rate: @Model.DailyRate лв./ден</p>
+    <p>Status: @Model.Status</p>
+
+    <!-- Rent Form -->
+    <h2>Rent This Car</h2>
+    <form asp-action="Rent" method="post">
+        <input type="hidden" name="CarId" value="@Model.CarId" />
+
+        <div class="form-group">
+            <label for="RentalDate">Start Date</label>
+            <input type="date" name="RentalDate" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="ReturnDate">End Date</label>
+            <input type="date" name="ReturnDate" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Rent</button>
+    </form>
+</div>
