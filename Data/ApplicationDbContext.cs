@@ -14,6 +14,7 @@ namespace CarRental3._0.Data
         public DbSet<Car> Cars { get; set; }
         public DbSet<Rental> Rentals { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Review> Reviews { get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

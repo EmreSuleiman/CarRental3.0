@@ -19,11 +19,11 @@ namespace CarRental3._0.Controllers
             _carRepository = carRepository;
             _userManager = userManager;
         }
-        public async Task<IActionResult> Index(string category, DateTime? startDate, DateTime? endDate)
+        public async Task<IActionResult> Index(string category, DateTime? startDate, DateTime? endDate, string sortBy)
         {
-            ViewBag.SelectedCategory = category; // Pass the selected category to the view
-            ViewBag.StartDate = startDate?.ToString("yyyy-MM-dd"); // Pass the start date to the view
-            ViewBag.EndDate = endDate?.ToString("yyyy-MM-dd"); // Pass the end date to the view
+            ViewBag.SelectedCategory = category;
+            ViewBag.StartDate = startDate?.ToString("yyyy-MM-dd");
+            ViewBag.EndDate = endDate?.ToString("yyyy-MM-dd");
 
             IEnumerable<Car> cars;
 
@@ -41,6 +41,26 @@ namespace CarRental3._0.Controllers
             if (!string.IsNullOrEmpty(category))
             {
                 cars = cars.Where(c => c.Category.ToString() == category).ToList();
+            }
+
+            // Apply sorting
+            switch (sortBy)
+            {
+                case "price_asc":
+                    cars = cars.OrderBy(c => c.DailyRate).ToList();
+                    break;
+                case "price_desc":
+                    cars = cars.OrderByDescending(c => c.DailyRate).ToList();
+                    break;
+                case "year_asc":
+                    cars = cars.OrderBy(c => c.Year).ToList();
+                    break;
+                case "year_desc":
+                    cars = cars.OrderByDescending(c => c.Year).ToList();
+                    break;
+                default:
+                    // Default sorting (e.g., by ID or no sorting)
+                    break;
             }
 
             return View(cars);

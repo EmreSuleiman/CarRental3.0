@@ -9,11 +9,161 @@
             </div>
         </div>
     </section>
+    <div class="catalogue-container">
+        <!-- Left Sidebar - Filters -->
+        <div class="filter-sidebar">
+            <h3>Филтри</h3>
 
+            <!-- Date Range Picker -->
+            <div class="filter-section">
+                <h5>Дата на наемане</h5>
+                <input type="text" id="dateRangePicker" class="form-control" placeholder="Изберете период">
+            </div>
+
+            <!-- Category Filter -->
+            <div class="filter-section">
+                <h5>Категория</h5>
+                <div class="category-options">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" id="allCategories" value="" checked>
+                        <label class="form-check-label" for="allCategories">Всички</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" id="economical" value="Economical">
+                        <label class="form-check-label" for="economical">Икономични</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" id="luxury" value="Luxury">
+                        <label class="form-check-label" for="luxury">Луксозни</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" id="van" value="Van">
+                        <label class="form-check-label" for="van">Ванове</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Price Range -->
+            <div class="filter-section">
+                <h5>Ценови диапазон</h5>
+                <div class="price-range">
+                    <input type="range" class="form-range" min="0" max="200" step="10" id="priceRange">
+                    <div class="price-values">
+                        <span>0 лв.</span>
+                        <span>200 лв.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Apply Filters Button -->
+            <button id="applyFilters" class="btn btn-primary">Приложи филтри</button>
+        </div>
+
+        <!-- Right Content - Cars Listing -->
+        <div class="cars-listing">
+            <!-- Sorting Options -->
+            <div class="sorting-options">
+                <div class="sort-by">
+                    <span>Сортирай по:</span>
+                    <select class="form-select" id="sortBy">
+                        <option value="default">По подразбиране</option>
+                        <option value="price_asc">Цена (възходяща)</option>
+                        <option value="price_desc">Цена (низходяща)</option>
+                        <option value="year_asc">Година (възходяща)</option>
+                        <option value="year_desc">Година (низходяща)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Cars Grid -->
+            <div class="cars-grid">
+                @foreach (var car in Model)
+                {
+                    <div class="car-card">
+                        <div class="car-image">
+                            <img src="@car.Image" alt="@car.Brand @car.Model">
+                        </div>
+                        <div class="car-details">
+                            <h4>@car.Brand @car.Model</h4>
+                            <div class="car-specs">
+                                <span><i class="fas fa-calendar-alt"></i> @car.Year г.</span>
+                                <span><i class="fas fa-tag"></i> @car.Category</span>
+                            </div>
+                            <div class="car-price">
+                                <span>@car.DailyRate лв./ден</span>
+                                <a href="/Car/Detail/@car.CarId" class="btn btn-primary">Наеми</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Initialize Flatpickr -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Date range picker
+            flatpickr("#dateRangePicker", {
+                mode: "range",
+                dateFormat: "Y-m-d",
+                minDate: "today"
+            });
+
+            // Apply filters
+            document.getElementById("applyFilters").addEventListener("click", function () {
+                const dateRange = document.getElementById("dateRangePicker").value;
+                const category = document.querySelector('input[name="category"]:checked').value;
+                const priceRange = document.getElementById("priceRange").value;
+                const sortBy = document.getElementById("sortBy").value;
+
+                let url = `/Car/Index?sortBy=${sortBy}`;
+
+                if (dateRange) {
+                    const [startDate, endDate] = dateRange.split(" to ");
+                    url += `&startDate=${startDate}&endDate=${endDate}`;
+                }
+
+                if (category) {
+                    url += `&category=${category}`;
+                }
+
+                if (priceRange) {
+                    url += `&maxPrice=${priceRange}`;
+                }
+
+                window.location.href = url;
+            });
+        });
+    </script>
+@* 
     <!-- Hidden input for selected category -->
     <input type="hidden" id="selectedCategory" value="@ViewBag.SelectedCategory" />
 
+    <!-- Sorting Dropdown -->
+    <div class="form-group">
+        <label for="sortBy">Сортирай по:</label>
+        <select id="sortBy" class="form-control">
+            <option value="">-- Избери --</option>
+            <option value="price_asc">Цена (възходящо)</option>
+            <option value="price_desc">Цена (низходящо)</option>
+            <option value="year_asc">Година (възходящо)</option>
+            <option value="year_desc">Година (низходящо)</option>
+        </select>
+    </div>
 
+    <!-- JavaScript for Sorting -->
+    <script>
+        document.getElementById("sortBy").addEventListener("change", function () {
+            const sortBy = this.value;
+            const category = "@ViewBag.SelectedCategory";
+            const startDate = "@ViewBag.StartDate";
+            const endDate = "@ViewBag.EndDate";
+
+            window.location.href = `/Car/Index?category=${category}&startDate=${startDate}&endDate=${endDate}&sortBy=${sortBy}`;
+        });
+    </script>
     <!-- Date Range Picker -->
     <div class="form-group">
         <label for="dateRangePicker">Период:</label>
@@ -65,10 +215,10 @@
                 }
             </div>
         </div>
-    </div>
+    </div> *@
 </main>
 
-<!-- Initialize Flatpickr -->
+@* <!-- Initialize Flatpickr -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -109,4 +259,4 @@
             });
         });
     });
-</script>
+</script> *@

@@ -6,18 +6,24 @@
 <section class="hero-section">
     <div class="container">
         <div class="hero-content">
-            <h1>Rent the Perfect Car for Your Journey</h1>
-            <h2>Explore our wide range of cars at unbeatable prices.</h2>
+            <h1>
+                Наемете Перфектната Кола за Вашето Пътуване
+            </h1>
+            <h2>
+                Разгледайте нашата широка гама от автомобили на ненадминати цени.
+            </h2>
             <div class="hero-buttons">
-                <a href="/Car/Index" class="btn btn-primary">Book Now</a>
-                <a href="/About" class="btn btn-secondary">Learn More</a>
+                <a href="/Car/Index" class="btn btn-primary">Наеми сега</a>
+                <a href="/About" class="btn btn-secondary">Научи повече</a>
             </div>
         </div>
     </div>
 </section>
 <section class="featured-cars">
     <div class="container">
-        <h2>Featured Cars</h2>
+        <h2>
+            Препоръчани Автомобили
+        </h2>
         <div class="carousel">
             <button class="carousel-prev">&#10094;</button>
             <button class="carousel-next">&#10095;</button>
@@ -29,7 +35,7 @@
 </section>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function () {
         const carouselTrack = document.querySelector(".carousel-track");
         const prevButton = document.querySelector(".carousel-prev");
         const nextButton = document.querySelector(".carousel-next");
@@ -52,87 +58,121 @@
         const carouselContent = carCards.map(createCarCard).join("");
         carouselTrack.innerHTML = carouselContent + carouselContent; // Duplicate content
 
-        // Carousel navigation logic
-        let currentPosition = 0;
-        const cardWidth = 300; // Width of each car card
-        const gap = 15; // Gap between car cards
-        const totalCards = carCards.length;
-
+        // Handle previous button click
         prevButton.addEventListener("click", () => {
-            if (currentPosition > 0) {
-                currentPosition--;
-            } else {
-                currentPosition = totalCards - 1; // Loop to the end
-            }
-            updateCarousel();
+            carouselTrack.style.transform = "translateX(-50%)";
         });
 
+        // Handle next button click
         nextButton.addEventListener("click", () => {
-            if (currentPosition < totalCards - 1) {
-                currentPosition++;
-            } else {
-                currentPosition = 0; // Loop to the start
-            }
-            updateCarousel();
+            carouselTrack.style.transform = "translateX(0)";
         });
-
-        function updateCarousel() {
-            const offset = -currentPosition * (cardWidth + gap);
-            carouselTrack.style.transform = `translateX(${offset}px)`;
-        }
     });
 </script>
 
 
 <section class="why-choose-us">
     <div class="container">
-        <h2>Why Choose Us?</h2>
+        <h2>Защо да изберете нас?</h2>
         <div class="benefits-grid">
             <div class="benefit-card">
                 <i class="fas fa-tag"></i>
-                <h3>Affordable Prices</h3>
-                <p>Get the best deals on car rentals.</p>
+                <h3> Достъпни Цени</h3>
+                <p>
+                    Получете най-добрите оферти за коли под наем.
+                </p>
             </div>
             <div class="benefit-card">
                 <i class="fas fa-car"></i>
-                <h3>Wide Selection</h3>
-                <p>Choose from a variety of cars.</p>
+                <h3>Голям Избор</h3>
+                <p>Изберете от разнообразие от автомобили.</p>
             </div>
             <div class="benefit-card">
                 <i class="fas fa-headset"></i>
                 <h3>24/7 Support</h3>
-                <p>We're here to help you anytime.</p>
+                <p>Винаги сме на разположение да ви помогнем.</p>
             </div>
         </div>
     </div>
 </section>
 
-<section class="testimonials">
+<!--Reviews-->
+<section class="reviews-section">
     <div class="container">
-        <h2>What Our Customers Say</h2>
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <img src="https://example.com/user1.jpg" alt="User 1">
-                <p>"Great service and affordable prices!"</p>
-                <h4>John Doe</h4>
-                <div class="rating">★★★★★</div>
-            </div>
-            <div class="testimonial-card">
-                <img src="https://example.com/user2.jpg" alt="User 2">
-                <p>"The cars are always in excellent condition."</p>
-                <h4>Jane Smith</h4>
-                <div class="rating">★★★★★</div>
-            </div>
+        <h2>Отзиви от нашите клиенти</h2>
+        <div class="reviews-container">
+            <!-- Top Reviews will be loaded here -->
+            <div id="topReviews"></div>
+
+            <!-- Review Form -->
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="review-form">
+                    <h3>Напишете вашето мнение</h3>
+                    <form asp-controller="Review" asp-action="Create" method="post">
+                        <div class="form-group">
+                            <label>Оценка:</label>
+                            <div class="star-rating">
+                                <input type="radio" id="5-stars" name="Rating" value="5" checked />
+                                <label for="5-stars" class="star">&#9733;</label>
+                                <input type="radio" id="4-stars" name="Rating" value="4" />
+                                <label for="4-stars" class="star">&#9733;</label>
+                                <input type="radio" id="3-stars" name="Rating" value="3" />
+                                <label for="3-stars" class="star">&#9733;</label>
+                                <input type="radio" id="2-stars" name="Rating" value="2" />
+                                <label for="2-stars" class="star">&#9733;</label>
+                                <input type="radio" id="1-star" name="Rating" value="1" />
+                                <label for="1-star" class="star">&#9733;</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="Comment" class="form-control" placeholder="Вашият отзив..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Изпрати</button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <p>Моля, <a href="/Account/Login">влезте</a> в профила си, за да оставите отзив.</p>
+            }
         </div>
     </div>
 </section>
+
+<script>
+    // Load top reviews
+    fetch('/Review/GetTopReviews')
+        .then(response => response.json())
+        .then(reviews => {
+            const container = document.getElementById('topReviews');
+            reviews.forEach(review => {
+                container.innerHTML += `
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="user-info">
+                                <span class="user-name">${review.user.fullName}</span>
+                                <div class="rating">
+                                    ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
+                                </div>
+                            </div>
+                            <span class="review-date">${new Date(review.createdAt).toLocaleDateString()}</span>
+                        </div>
+                        <div class="review-content">
+                            <p>${review.comment}</p>
+                        </div>
+                    </div>
+                `;
+            });
+        });
+</script>
 <footer class="footer">
 <div class="container">
     <div class="footer-links">
-        <a href="/">Home</a>
-        <a href="/About">About</a>
-        <a href="/Contact">Contact</a>
-        <a href="/Privacy">Privacy Policy</a>
+        <a href="/">Начало</a>
+        <a href="/About">За нас</a>
+        <a href="/Contact">Контакти</a>
+        <a href="/Privacy">Политика за поверителност</a>
     </div>
     <div class="social-media">
         <a href="#"><i class="fab fa-facebook"></i></a>
@@ -140,8 +180,8 @@
         <a href="#"><i class="fab fa-instagram"></i></a>
     </div>
     <div class="contact-info">
-        <p>123 Car Rental Street, Sofia, Bulgaria</p>
-        <p>Phone: +359 123 456 789</p>
+            <p>Адрес: 123 Car Rental Street, София, България</p>
+            <p>Телефон: +359 123 456 789</p>
         <p>Email: info@carrental.com</p>
     </div>
 </div>
